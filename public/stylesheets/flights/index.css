@@ -1,5 +1,18 @@
+main{
+  background-color: #DAF5FF;
+}
+
+body {
+  background-color: #C0DBEA;
+  border-radius: 50%;
+}
+
 table {
   font-size: 20px;
+  background-color: #DAF5FF;
+  justify-content: center;
+  text-align: center;
+  border-radius: 50%;
 }
 
 table thead th {
@@ -33,3 +46,4 @@ table td {
 #list a:hover {
   background-color: white;
 }
+

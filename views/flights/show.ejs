@@ -51,7 +51,9 @@ method="POST">
 <% } else { %>
   <h3>You have no tickets</h3>
   <% } %>
-
+  <form action="/flights/tickets<%= flight.tickets._id %>?_method=DELETE" method="POST">
+    <button type="submit">X</button>
+  </form>
 </main>
   
 <%- include('../partials/footer') %>
