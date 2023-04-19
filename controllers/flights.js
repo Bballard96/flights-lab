@@ -1,4 +1,5 @@
 import { Flight } from "../models/flight.js"
+import { Meal } from "../models/meal.js"
 
 
 
@@ -14,7 +15,7 @@ function create(req, res) {
   }
   Flight.create(req.body)
   .then(flight => {
-    res.redirect('/flights')
+    res.redirect(`/flights/${flight._id}`)
   })
   .catch(err => {
     console.log(err)
@@ -38,10 +39,21 @@ function index(req, res) {
 
 function show(req, res) {
   Flight.findById(req.params.flightId)
+  .populate('menu')
   .then(flight => {
-    res.render('flights/show', {
-      flight: flight,
-      title: 'Flight Detail'
+    Meal.find({_id: {$nin: flight.menu}})
+    .then(meals => {
+      console.log(flight, '<--- FLIGHT')
+      console.log(meals, '<---MEALS NOT ON FLIGHT')
+      res.render('flights/show', {
+        flight: flight,
+        title: 'Flight Detail',
+        meals: meals
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/flights')
     })
   })
   .catch(err => {
@@ -61,16 +73,16 @@ function deleteFlight(req, res) {
   })
 }
 
-function deleteTicket(req, res) {
-  Flight.ticket.findByIdAndDelete(req.params.ticketId)
-  .then(ticket => {
-    res.redirect('/flights')
-  })
-  .catch(err => {
-    console.log(err)
-    res.redirect('/flights')
-  })
-}
+// function deleteTicket(req, res) {
+//   Flight.ticket.findByIdAndDelete(req.params.ticketId)
+//   .then(ticket => {
+//     res.redirect('/flights')
+//   })
+//   .catch(err => {
+//     console.log(err)
+//     res.redirect('/flights')
+//   })
+// }
 
 function edit(req, res) {
   Flight.findById(req.params.flightId)
@@ -114,6 +126,24 @@ function createTicket(req, res) {
   })
 }
 
+function addToMenu(req, res) {
+  Flight.findById(req.params.flightId)
+  .then(flight => {
+    flight.menu.push(req.body.mealId)
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/flights')
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
 
 export {
   newFlight as new,
@@ -124,5 +154,6 @@ export {
   edit,
   update,
   createTicket,
-  deleteTicket
+  addToMenu
+  // deleteTicket
 }

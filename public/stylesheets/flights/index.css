@@ -4,7 +4,6 @@ main{
 
 body {
   background-color: #C0DBEA;
-  border-radius: 50%;
 }
 
 table {
@@ -12,7 +11,6 @@ table {
   background-color: #DAF5FF;
   justify-content: center;
   text-align: center;
-  border-radius: 50%;
 }
 
 table thead th {

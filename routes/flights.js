@@ -17,6 +17,8 @@ router.post('/', flightsCtrl.create)
 // DELETE localhost:3000/movies/:movieId
 router.post('/:flightId/tickets', flightsCtrl.createTicket)
 
+router.post('/:flightId/meals', flightsCtrl.addToMenu)
+
 router.delete('/:flightId', flightsCtrl.delete)
 
 router.delete('/:flightId/tickets', flightsCtrl.delete)
